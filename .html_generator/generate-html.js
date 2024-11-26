@@ -163,7 +163,7 @@ const outHtml = Object.keys(categories).map((item) => (
                 )
               }</span>.
             ${!pub.getField("publisher") ? "" :
-              ` Publisher: ${escape(pub.getFieldAsString("publisher"))}, `}
+              ` Publisher: ${escape(pub.getFieldAsString("publisher"))},`}
             ${!pub.getField("booktitle") ? "" :  (
               `<span>
                 In 
@@ -173,7 +173,7 @@ const outHtml = Object.keys(categories).map((item) => (
               </span>`
             )}
             ${!pub.getField("journal") ? "" : 
-              " " + escape(pub.getFieldAsString("journal")) + ", "}
+              " " + escape(pub.getFieldAsString("journal")) + ","}
             ${!pub.getField("month") ? "" : 
               " " +
                 capitalizeFirstLetter(

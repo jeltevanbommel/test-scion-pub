@@ -22,7 +22,7 @@ jobs:
 
       # Install dependencies and run the script to generate gen.html
       - name: Run JavaScript to generate HTML
-        working-directory: ./html_generator
+        working-directory: html_generator
         run: |
           npm install # Install bibtex dependency
           node generate-html.js

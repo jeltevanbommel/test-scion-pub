@@ -142,68 +142,66 @@ const categories = await fs.promises.readFile('../categories.json', 'utf8').then
 
 // Render as HTML. 
 // XXX Not using proper components here to not introduce a bunch of libraries to do some relatively easy string manipulation.
-const outHtml = `
-  <>
-    ${Object.keys(categories).map((item) => (
-      `<div>
-        <h3 class="text-4xl font-semibold leading-7 text-slate-400 pt-10">
-          ${escape(categories[item])}
-        </h3>
-        ${!pubDb[item] ? "" : pubDb[item].map((pub) => (
-          `<div class="max-w-2xl [&>a]:text-scion-aurora-blue-700">
-            <h2 class="mt-6 text-lg font-medium text-scion-aurora-blue-700">
-              <a
-                href=${pub.getField("url") ? pub.getFieldAsString("url") : "#"}
-                target="_blank"
-              >${latex2html(pub.getFieldAsString("title"))}</a>
-            </h2>
-            <p class="mt-2 font-display text-md text-slate-900 [&_a]:text-scion-aurora-blue-700 [&_a]:font-medium">
-              <span>${latex2html(
-                    pub.getFieldAsString("author")
-                      .replace(/( and )(?=.*( and ))/g, ", ")
-                  )
-                }</span>.
-              ${!pub.getField("publisher") ? "" :
-                ` Publisher: ${escape(pub.getFieldAsString("publisher"))}, `}
-              ${!pub.getField("booktitle") ? "" :  (
-                `<span>
-                  In 
-                  <span class="italic">
-                    ${escape(pub.getFieldAsString("booktitle"))}
-                  </span>,
-                </span>`
-              )}
-              ${!pub.getField("journal") ? "" : 
-                " " + escape(pub.getFieldAsString("journal")) + ", "}
-              ${!pub.getField("month") ? "" : 
-                " " +
-                  capitalizeFirstLetter(
-                    monthMapping[pub.getFieldAsString("month")]
-                  ) +
-                  " "}
-              ${!pub.getField("year") ? "" : 
-                " " + escape(pub.getFieldAsString("year")) + ". "}
-              ${!pub.getField("comment") ? "" :  (
-                `<span>${bibtex.normalizeFieldValue(pub.getField("comment"))}</span>`
-              )}
-              ${!pub.getField("doi") ? "" :  (
-                `<span class="bibmenu">
-                  <a
-                    href=${
-                      "https://doi.org/" + bibtex.normalizeFieldValue(pub.getField("doi"))
-                    }
-                    target="_blank"
-                  >
-                    ${" "}
-                    [doi]
-                  </a>
-                </span>`
-              )}
-            </p>
-          </div>`)).join('')}
-      </div>`
-    )).join('')}
-  </>`;
+
+const outHtml = Object.keys(categories).map((item) => (
+  `<div>
+      <h2 class="pub-cat">
+        ${escape(categories[item])}
+      </h2>
+      ${!pubDb[item] ? "" : pubDb[item].map((pub) => (
+        `<div>
+          <h3 class="pub-title">
+            <a
+              href=${pub.getField("url") ? pub.getFieldAsString("url") : "#"}
+              target="_blank"
+            >${latex2html(pub.getFieldAsString("title"))}</a>
+          </h3>
+          <p class="pub-desc">
+            <span>${latex2html(
+                  pub.getFieldAsString("author")
+                    .replace(/( and )(?=.*( and ))/g, ", ")
+                )
+              }</span>.
+            ${!pub.getField("publisher") ? "" :
+              ` Publisher: ${escape(pub.getFieldAsString("publisher"))}, `}
+            ${!pub.getField("booktitle") ? "" :  (
+              `<span>
+                In 
+                <span class="italic">
+                  ${escape(pub.getFieldAsString("booktitle"))}
+                </span>,
+              </span>`
+            )}
+            ${!pub.getField("journal") ? "" : 
+              " " + escape(pub.getFieldAsString("journal")) + ", "}
+            ${!pub.getField("month") ? "" : 
+              " " +
+                capitalizeFirstLetter(
+                  monthMapping[pub.getFieldAsString("month")]
+                ) +
+                " "}
+            ${!pub.getField("year") ? "" : 
+              " " + escape(pub.getFieldAsString("year")) + ". "}
+            ${!pub.getField("comment") ? "" :  (
+              `<span>${bibtex.normalizeFieldValue(pub.getField("comment"))}</span>`
+            )}
+            ${!pub.getField("doi") ? "" :  (
+              `<span>
+                <a
+                  href=${
+                    "https://doi.org/" + bibtex.normalizeFieldValue(pub.getField("doi"))
+                  }
+                  target="_blank"
+                >
+                  ${" "}
+                  [doi]
+                </a>
+              </span>`
+            )}
+          </p>
+        </div>`)).join('')}
+    </div>`
+  )).join('');
 
 // Write the generated file
 fs.writeFileSync('../gen.html', outHtml)

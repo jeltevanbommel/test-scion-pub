@@ -167,9 +167,7 @@ const outHtml = Object.keys(categories).map((item) => (
             ${!pub.getField("booktitle") ? "" :  (
               `<span>
                 In 
-                <span class="italic">
-                  ${escape(pub.getFieldAsString("booktitle"))}
-                </span>,
+                <span class="italic">${escape(pub.getFieldAsString("booktitle"))}</span>,
               </span>`
             )}
             ${!pub.getField("journal") ? "" : 

@@ -150,12 +150,12 @@ const outHtml = Object.keys(categories).map((item) => (
       </h2>
       ${!pubDb[item] ? "" : pubDb[item].map((pub) => (
         `<div>
-          <h3 class="pub-title">
+          <h4 class="pub-title">
             <a
               href=${pub.getField("url") ? pub.getFieldAsString("url") : "#"}
               target="_blank"
             >${latex2html(pub.getFieldAsString("title"))}</a>
-          </h3>
+          </h4>
           <p class="pub-desc">
             <span>${latex2html(
                   pub.getFieldAsString("author")
@@ -204,4 +204,4 @@ const outHtml = Object.keys(categories).map((item) => (
   )).join('');
 
 // Write the generated file
-fs.writeFileSync('../gen.html', outHtml)
+fs.writeFileSync('../index.html', outHtml)
